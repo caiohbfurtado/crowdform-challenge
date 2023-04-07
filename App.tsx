@@ -2,9 +2,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import { NativeBaseProvider } from 'native-base'
 import { StatusBar } from 'expo-status-bar'
 
+import { THEME } from './src/theme'
+
 export default function App() {
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider theme={THEME}>
       <View style={styles.container}>
         <Text>Open up App.tsx to start working on your app!</Text>
         <StatusBar style="auto" />
