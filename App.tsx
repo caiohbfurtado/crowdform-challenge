@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { NativeBaseProvider } from 'native-base'
+import { NativeBaseProvider, Stack } from 'native-base'
 import {
   useFonts,
   Sora_400Regular,
@@ -15,9 +15,17 @@ export default function App() {
     Sora_600SemiBold,
   })
 
+  console.log(fontsLoaded)
+
+  if (!fontsLoaded) {
+    return false
+  }
+
   return (
     <NativeBaseProvider theme={THEME}>
-      {fontsLoaded ? <SignIn /> : null}
+      <Stack flex={1} backgroundColor="white">
+        <SignIn />
+      </Stack>
     </NativeBaseProvider>
   )
 }

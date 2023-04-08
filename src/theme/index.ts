@@ -7,7 +7,7 @@ export const THEME = extendTheme({
       500: '#770FDF',
     },
     gray: {
-      100: '#f4f4f5',
+      100: '#f5f5f5',
       200: '#f4f4f4',
       400: '#cfcfcf',
       300: '#A0A0A0',
@@ -16,8 +16,8 @@ export const THEME = extendTheme({
     black: '#000000',
   },
   fonts: {
-    heading: 'Karla_700Bold',
-    body: 'Karla_400Regular',
+    body: 'Sora_400Regular',
+    heading: 'Sora_600SemiBold',
   },
   fontSizes: {
     xs: 12,
