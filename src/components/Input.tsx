@@ -80,6 +80,9 @@ export function Input({
           {...rest}
         />
         {secureTextEntry && RenderIcon()}
+        <FormControl.ErrorMessage _text={{ color: 'red.500' }}>
+          {errorMessage}
+        </FormControl.ErrorMessage>
       </Center>
     </FormControl>
   )

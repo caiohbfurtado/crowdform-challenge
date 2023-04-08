@@ -10,12 +10,31 @@ import {
   ScrollView,
   Text,
 } from 'native-base'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 
 import { AuthNavigatorRoutesProps } from '../routes/auth.routes'
 import { Controller, useForm } from 'react-hook-form'
+
+const signUpSchema = yup.object({
+  firstName: yup.string().required('First Name is required'),
+  lastName: yup.string().required('Last Name is required'),
+  email: yup
+    .string()
+    .required('E-mail is required')
+    .email('Provide a valid e-mail'),
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters long'),
+  confirm_password: yup
+    .string()
+    .required('Confirmação de senha obrigatória')
+    .oneOf([yup.ref('password')], 'A confirmação da senha não confere'),
+})
 
 type SignUpForm = {
   firstName: string
@@ -32,7 +51,9 @@ export function SignUp() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignUpForm>({})
+  } = useForm<SignUpForm>({
+    resolver: yupResolver(signUpSchema),
+  })
 
   function handleGoToSignUp() {
     navigate('SignIn')
@@ -64,7 +85,7 @@ export function SignUp() {
             label="First Name"
             placeholder="First Name"
             value={value}
-            onChange={onChange}
+            onChangeText={onChange}
             errorMessage={errors.firstName?.message}
           />
         )}
@@ -77,7 +98,7 @@ export function SignUp() {
             label="Last Name"
             placeholder="Last Name"
             value={value}
-            onChange={onChange}
+            onChangeText={onChange}
             errorMessage={errors.lastName?.message}
           />
         )}
@@ -90,7 +111,7 @@ export function SignUp() {
             label="E-mail"
             placeholder="E-mail"
             value={value}
-            onChange={onChange}
+            onChangeText={onChange}
             errorMessage={errors.email?.message}
           />
         )}
@@ -104,7 +125,7 @@ export function SignUp() {
             placeholder="Password"
             secureTextEntry
             value={value}
-            onChange={onChange}
+            onChangeText={onChange}
             errorMessage={errors.password?.message}
           />
         )}
@@ -118,7 +139,7 @@ export function SignUp() {
             placeholder="Confirm Password"
             secureTextEntry
             value={value}
-            onChange={onChange}
+            onChangeText={onChange}
             errorMessage={errors.confirm_password?.message}
           />
         )}

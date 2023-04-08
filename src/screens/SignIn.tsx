@@ -5,6 +5,16 @@ import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { AuthNavigatorRoutesProps } from '../routes/auth.routes'
 import { Controller, useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+
+const signInSchema = yup.object({
+  email: yup
+    .string()
+    .required('E-mail is required')
+    .email('Provide a valid e-mail'),
+  password: yup.string().required('Password is required'),
+})
 
 type SignInForm = {
   email: string
@@ -17,7 +27,9 @@ export function SignIn() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignInForm>({})
+  } = useForm<SignInForm>({
+    resolver: yupResolver(signInSchema),
+  })
 
   function handleGoToSignUp() {
     navigate('SignUp')
@@ -41,7 +53,7 @@ export function SignIn() {
             label="E-mail"
             placeholder="E-mail"
             value={value}
-            onChange={onChange}
+            onChangeText={onChange}
             errorMessage={errors.email?.message}
           />
         )}
@@ -55,7 +67,7 @@ export function SignIn() {
             placeholder="Password"
             secureTextEntry
             value={value}
-            onChange={onChange}
+            onChangeText={onChange}
             errorMessage={errors.password?.message}
           />
         )}
