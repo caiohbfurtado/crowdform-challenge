@@ -37,14 +37,14 @@ export function Input({
         style={{ position: 'absolute', right: space[3] }}
         onPress={handleSetVisiblePassword}
       >
-        <Icon as={Feather} name="eye" size={18} color="gray.300" />
+        <Icon as={Feather} name="eye" size={18} color="gray.500" />
       </TouchableOpacity>
     ) : (
       <TouchableOpacity
         style={{ position: 'absolute', right: space[3] }}
         onPress={handleSetVisiblePassword}
       >
-        <Icon as={Feather} name="eye-off" size={18} color="gray.300" />
+        <Icon as={Feather} name="eye-off" size={18} color="gray.500" />
       </TouchableOpacity>
     )
   }
@@ -52,7 +52,7 @@ export function Input({
   return (
     <FormControl isInvalid={invalid} marginBottom={4}>
       {label && (
-        <Text color="gray.300" fontFamily="body" mb={1}>
+        <Text color="gray.500" fontFamily="body" mb={1}>
           {label}
         </Text>
       )}

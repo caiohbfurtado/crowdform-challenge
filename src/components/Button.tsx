@@ -2,8 +2,8 @@ import { Button as NativeBaseButton, IButtonProps, Text } from 'native-base'
 
 type Props = IButtonProps & {
   title: string
-  variant?: 'primary' | 'success' | 'outline'
-  size?: 'full' | 'mini'
+  variant?: 'primary'
+  size?: 'full'
 }
 
 export function Button({
@@ -15,16 +15,12 @@ export function Button({
   return (
     <NativeBaseButton
       {...(size === 'full' && { w: 'full' })}
-      h={size === 'mini' ? 10 : 14}
+      h={14}
       rounded="sm"
       backgroundColor={variant === 'primary' ? 'purple.500' : 'green.700'}
       {...rest}
     >
-      <Text
-        color="white"
-        fontFamily="heading"
-        fontSize={size === 'mini' ? 'xs' : 'sm'}
-      >
+      <Text color="white" fontFamily="heading" fontSize={'sm'}>
         {title}
       </Text>
     </NativeBaseButton>

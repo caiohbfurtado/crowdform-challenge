@@ -2,14 +2,19 @@
 import { Center, Heading, Link, Text } from 'native-base'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
-
-function handleGoToSignUp() {
-  console.log('go to signup!')
-}
+import { useNavigation } from '@react-navigation/native'
+import { AuthNavigatorRoutesProps } from '../routes/auth.routes'
 
 export function SignIn() {
+  const { navigate } = useNavigation<AuthNavigatorRoutesProps>()
+
+  function handleGoToSignUp() {
+    navigate('SignUp')
+    console.log('go to signup!')
+  }
+
   return (
-    <Center flex={1} p={5}>
+    <Center backgroundColor="white" flex={1} p={5}>
       <Heading color="black" fontSize="lg" fontFamily="heading" mb={9}>
         Login
       </Heading>
@@ -19,22 +24,18 @@ export function SignIn() {
       <Button title="Login" mt={5} />
 
       <Center flexDirection="row" mt={3}>
-        <Text color="gray.300" fontFamily="body" fontSize="xs">
+        <Text color="gray.500" fontFamily="body" fontSize="xs">
           Don't have an account?{' '}
         </Text>
         <Link
           _text={{
-            color: 'gray.300',
+            color: 'black',
             fontSize: 'xs',
           }}
           onPress={handleGoToSignUp}
         >
-          Sign up
+          Sign up Here
         </Link>
-        <Text color="gray.300" fontFamily="body" fontSize="xs">
-          {' '}
-          here
-        </Text>
       </Center>
     </Center>
   )

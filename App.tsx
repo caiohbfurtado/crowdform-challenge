@@ -7,7 +7,7 @@ import {
 } from '@expo-google-fonts/sora'
 
 import { THEME } from './src/theme'
-import { SignIn } from './src/screens/SignIn'
+import { Routes } from './src/routes'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,7 +24,7 @@ export default function App() {
   return (
     <NativeBaseProvider theme={THEME}>
       <Stack flex={1} backgroundColor="white">
-        <SignIn />
+        <Routes />
       </Stack>
     </NativeBaseProvider>
   )
