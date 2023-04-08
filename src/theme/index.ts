@@ -13,6 +13,18 @@ export const THEME = extendTheme({
       400: '#cfcfcf',
       500: '#A0A0A0',
     },
+    green: {
+      500: '#0FDF8F',
+    },
+    blue: {
+      500: '#4A88D0',
+    },
+    yellow: {
+      500: '#F0A719',
+    },
+    red: {
+      300: '#EE8688',
+    },
     white: '#FFFFFF',
     black: '#000000',
   },
