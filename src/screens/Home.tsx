@@ -2,7 +2,6 @@ import {
   Box,
   Center,
   Divider,
-  FlatList,
   HStack,
   Icon,
   Image,
@@ -13,12 +12,78 @@ import {
 import { HeaderHome } from '../components/HeaderHome'
 import { Feather, FontAwesome5 } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native'
-import { FundCard } from '../components/FundCard'
+import { DataMonth, FundCard } from '../components/FundCard'
 
 import businessStatistcsImage from '../assets/business-statistcs.png'
 import { MainCard } from '../components/MainCard'
+import { useMemo } from 'react'
+import { getPercentVariation } from '../utils/getPercentVariation'
+
+type Portfolio = {
+  wind: DataMonth[]
+  solar: DataMonth[]
+  nature: DataMonth[]
+}
+
+const portfolio: Portfolio = {
+  wind: [
+    { month: 'january', result: 950.42 },
+    { month: 'february', result: 980.17 },
+    { month: 'march', result: 844.62 },
+    { month: 'may', result: 744.62 },
+    { month: 'august', result: 749.62 },
+    { month: 'september', result: 790.62 },
+    { month: 'october', result: 820.62 },
+    { month: 'november', result: 891.41 },
+    { month: 'december', result: 1985.47 },
+  ],
+  solar: [
+    { month: 'january', result: 950.42 },
+    { month: 'february', result: 980.17 },
+    { month: 'march', result: 844.62 },
+    { month: 'may', result: 744.62 },
+    { month: 'august', result: 749.62 },
+    { month: 'september', result: 520.62 },
+    { month: 'october', result: 980.62 },
+    { month: 'november', result: 752.41 },
+    { month: 'december', result: 1230.47 },
+  ],
+  nature: [
+    { month: 'january', result: 950.42 },
+    { month: 'february', result: 980.17 },
+    { month: 'march', result: 120.62 },
+    { month: 'may', result: 178.62 },
+    { month: 'august', result: 362.62 },
+    { month: 'september', result: 145.62 },
+    { month: 'october', result: 852.62 },
+    { month: 'november', result: 1980.41 },
+    { month: 'december', result: 720.47 },
+  ],
+}
 
 export function Home() {
+  const firstPortfolioValue = useMemo(() => {
+    const wind = portfolio.wind[0].result
+    const solar = portfolio.solar[0].result
+    const nature = portfolio.nature[0].result
+
+    return wind + solar + nature
+  }, [])
+
+  const currentPortfolioValue = useMemo(() => {
+    const wind = portfolio.wind[portfolio.wind.length - 1].result
+    const solar = portfolio.solar[portfolio.solar.length - 1].result
+    const nature = portfolio.nature[portfolio.nature.length - 1].result
+
+    return wind + solar + nature
+  }, [])
+
+  const percent = useMemo(
+    () => getPercentVariation(firstPortfolioValue, currentPortfolioValue),
+    [currentPortfolioValue, firstPortfolioValue],
+  )
+  const isCrescent = currentPortfolioValue > firstPortfolioValue
+
   return (
     <ScrollView
       flex={1}
@@ -41,19 +106,19 @@ export function Home() {
           </Text>
           <HStack alignItems="flex-end">
             <Text fontFamily="heading" fontSize="2xl">
-              $1,245.23
+              ${currentPortfolioValue}
             </Text>
 
             <HStack ml={1} alignItems="center" mb={1}>
               <Icon
                 as={Feather}
-                name="arrow-up-right"
+                name={isCrescent ? 'arrow-up-right' : 'arrow-down-right'}
                 size={3}
-                color="green.500"
+                color={isCrescent ? 'green.500' : 'red.500'}
                 mr={0.5}
               />
-              <Text fontSize="md" color="green.500">
-                31.82%
+              <Text fontSize="md" color={isCrescent ? 'green.500' : 'red.500'}>
+                {percent}%
               </Text>
             </HStack>
           </HStack>
@@ -92,27 +157,9 @@ export function Home() {
           showsHorizontalScrollIndicator={false}
           my={5}
         >
-          <FundCard
-            balance={1032.23}
-            type="wind"
-            variation={3.51}
-            yearData={[]}
-            status="crescent"
-          />
-          <FundCard
-            balance={1032.23}
-            type="solar"
-            variation={3.51}
-            yearData={[]}
-            status="crescent"
-          />
-          <FundCard
-            balance={1032.23}
-            type="nature"
-            variation={3.51}
-            yearData={[]}
-            status="crescent"
-          />
+          <FundCard type="wind" yearData={portfolio.wind} />
+          <FundCard type="solar" yearData={portfolio.solar} />
+          <FundCard type="nature" yearData={portfolio.nature} />
         </ScrollView>
 
         <TouchableOpacity>

@@ -1,8 +1,11 @@
 import { Box, HStack, Icon, Text, VStack, useTheme } from 'native-base'
 import { TouchableOpacity, TouchableOpacityProps } from 'react-native'
 import { Feather, FontAwesome } from '@expo/vector-icons'
+import { useMemo } from 'react'
+import { getPercentVariation } from '../utils/getPercentVariation'
+import { Chart } from './Chart'
 
-type DataMonth = {
+export type DataMonth = {
   month:
     | 'january'
     | 'february'
@@ -22,42 +25,49 @@ type DataMonth = {
 type Props = TouchableOpacityProps & {
   type: 'wind' | 'solar' | 'nature'
   yearData: DataMonth[]
-  balance: number
-  variation: number
-  status: 'crescent' | 'decrescent'
 }
 
-const iconAndColor = {
-  wind: {
-    icon: 'wind',
-    color: 'blue.500',
-  },
-  solar: {
-    icon: 'sun',
-    color: 'yellow.500',
-  },
-  nature: {
-    icon: 'leaf',
-    color: 'green.500',
-  },
-  crescent: {
-    icon: 'arrow-up-right',
-    color: 'green.500',
-  },
-  decrescent: {
-    icon: 'arrow-down-right',
-    color: 'red.500',
-  },
-}
-
-export function FundCard({
-  balance,
-  type,
-  variation,
-  status,
-  yearData,
-}: Props) {
+export function FundCard({ type, yearData }: Props) {
   const { space } = useTheme()
+  const yearDataIsEmptyOrOneMonth = yearData.length <= 1
+
+  const lastResult = yearData[yearData.length - 1].result
+  const firstResult = yearData[0].result
+
+  const resultOfMonths = useMemo(
+    () => yearData.map((item) => item.result),
+    [yearData],
+  )
+
+  const percent = useMemo(
+    () => getPercentVariation(firstResult, lastResult),
+    [firstResult, lastResult],
+  )
+
+  const isCrescent = lastResult > firstResult
+
+  const iconAndColor = {
+    wind: {
+      icon: 'wind',
+      color: 'blue.500',
+    },
+    solar: {
+      icon: 'sun',
+      color: 'yellow.500',
+    },
+    nature: {
+      icon: 'leaf',
+      color: 'green.500',
+    },
+    crescent: {
+      icon: 'arrow-up-right',
+      color: 'green.500',
+    },
+    decrescent: {
+      icon: 'arrow-down-right',
+      color: 'red.500',
+    },
+  }
 
   function RenderIcon() {
     if (type === 'nature') {
@@ -72,6 +82,10 @@ export function FundCard({
         size={4}
       />
     )
+  }
+
+  if (yearDataIsEmptyOrOneMonth) {
+    return null
   }
 
   return (
@@ -91,22 +105,22 @@ export function FundCard({
           </Text>
         </VStack>
 
-        <Box width="full" h={10} backgroundColor="error.500" />
+        <Chart data={resultOfMonths} />
 
         <HStack alignItems="flex-end">
           <Text color="black" fontSize="md">
-            ${balance}
+            ${lastResult}
           </Text>
 
           <HStack ml={2} alignItems="center">
             <Icon
               as={Feather}
-              name={iconAndColor[status].icon}
+              name={iconAndColor[isCrescent ? 'crescent' : 'decrescent'].icon}
               size={3}
-              color={iconAndColor[status].color}
+              color={iconAndColor[isCrescent ? 'crescent' : 'decrescent'].color}
             />
-            <Text fontSize="md" color="green.500">
-              {variation}%
+            <Text fontSize="md" color={isCrescent ? 'green.500' : 'red.500'}>
+              {percent}%
             </Text>
           </HStack>
         </HStack>
