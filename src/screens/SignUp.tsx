@@ -1,10 +1,20 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Center, Checkbox, HStack, Heading, Link, Text } from 'native-base'
+import { useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import {
+  Center,
+  Checkbox,
+  HStack,
+  Heading,
+  Link,
+  ScrollView,
+  Text,
+} from 'native-base'
+
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
-import { useNavigation } from '@react-navigation/native'
+
 import { AuthNavigatorRoutesProps } from '../routes/auth.routes'
-import { useState } from 'react'
 
 export function SignUp() {
   const { navigate } = useNavigation<AuthNavigatorRoutesProps>()
@@ -14,10 +24,16 @@ export function SignUp() {
     navigate('SignIn')
   }
 
-  console.log({ userAgree })
-
   return (
-    <Center flex={1} p={5} backgroundColor="white">
+    <ScrollView
+      flex={1}
+      p={5}
+      backgroundColor="white"
+      _contentContainerStyle={{
+        pb: 12,
+        alignItems: 'center',
+      }}
+    >
       <Heading color="black" fontSize="lg" fontFamily="heading" mb={9}>
         Create your account
       </Heading>
@@ -72,6 +88,6 @@ export function SignUp() {
           Log in Here
         </Link>
       </Center>
-    </Center>
+    </ScrollView>
   )
 }
