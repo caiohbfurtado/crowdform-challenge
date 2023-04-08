@@ -4,13 +4,27 @@ import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { AuthNavigatorRoutesProps } from '../routes/auth.routes'
+import { Controller, useForm } from 'react-hook-form'
+
+type SignInForm = {
+  email: string
+  password: string
+}
 
 export function SignIn() {
   const { navigate } = useNavigation<AuthNavigatorRoutesProps>()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignInForm>({})
 
   function handleGoToSignUp() {
     navigate('SignUp')
-    console.log('go to signup!')
+  }
+
+  function handleSignIn(data: SignInForm) {
+    console.log(data)
   }
 
   return (
@@ -18,10 +32,36 @@ export function SignIn() {
       <Heading color="black" fontSize="lg" fontFamily="heading" mb={9}>
         Login
       </Heading>
-      <Input label="E-mail" placeholder="E-mail" />
-      <Input label="Password" placeholder="Password" secureTextEntry />
 
-      <Button title="Login" mt={5} />
+      <Controller
+        name="email"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Input
+            label="E-mail"
+            placeholder="E-mail"
+            value={value}
+            onChange={onChange}
+            errorMessage={errors.email?.message}
+          />
+        )}
+      />
+      <Controller
+        name="password"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Input
+            label="Password"
+            placeholder="Password"
+            secureTextEntry
+            value={value}
+            onChange={onChange}
+            errorMessage={errors.password?.message}
+          />
+        )}
+      />
+
+      <Button title="Login" mt={5} onPress={handleSubmit(handleSignIn)} />
 
       <Center flexDirection="row" mt={3}>
         <Text color="gray.500" fontFamily="body" fontSize="xs">

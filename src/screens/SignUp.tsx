@@ -15,13 +15,31 @@ import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 
 import { AuthNavigatorRoutesProps } from '../routes/auth.routes'
+import { Controller, useForm } from 'react-hook-form'
+
+type SignUpForm = {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  confirm_password: string
+}
 
 export function SignUp() {
   const { navigate } = useNavigation<AuthNavigatorRoutesProps>()
   const [userAgree, setUserAgree] = useState(false)
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpForm>({})
 
   function handleGoToSignUp() {
     navigate('SignIn')
+  }
+
+  function handleSignUp(data: SignUpForm) {
+    console.log(data)
   }
 
   return (
@@ -38,10 +56,73 @@ export function SignUp() {
         Create your account
       </Heading>
 
-      <Input label="First Name" placeholder="First Name" />
-      <Input label="Last Name" placeholder="Last Name" />
-      <Input label="E-mail" placeholder="E-mail" />
-      <Input label="Password" placeholder="Password" secureTextEntry />
+      <Controller
+        name="email"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Input
+            label="First Name"
+            placeholder="First Name"
+            value={value}
+            onChange={onChange}
+            errorMessage={errors.firstName?.message}
+          />
+        )}
+      />
+      <Controller
+        name="lastName"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Input
+            label="Last Name"
+            placeholder="Last Name"
+            value={value}
+            onChange={onChange}
+            errorMessage={errors.lastName?.message}
+          />
+        )}
+      />
+      <Controller
+        name="email"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Input
+            label="E-mail"
+            placeholder="E-mail"
+            value={value}
+            onChange={onChange}
+            errorMessage={errors.email?.message}
+          />
+        )}
+      />
+      <Controller
+        name="password"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Input
+            label="Password"
+            placeholder="Password"
+            secureTextEntry
+            value={value}
+            onChange={onChange}
+            errorMessage={errors.password?.message}
+          />
+        )}
+      />
+      <Controller
+        name="confirm_password"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Input
+            label="Confirm Password"
+            placeholder="Confirm Password"
+            secureTextEntry
+            value={value}
+            onChange={onChange}
+            errorMessage={errors.confirm_password?.message}
+          />
+        )}
+      />
 
       <HStack p={4}>
         <Checkbox
@@ -72,7 +153,12 @@ export function SignUp() {
         </Checkbox>
       </HStack>
 
-      <Button title="Create account" mt={5} isDisabled={!userAgree} />
+      <Button
+        title="Create account"
+        mt={5}
+        isDisabled={!userAgree}
+        onPress={handleSubmit(handleSignUp)}
+      />
 
       <Center flexDirection="row" mt={3}>
         <Text color="gray.500" fontFamily="body" fontSize="xs">

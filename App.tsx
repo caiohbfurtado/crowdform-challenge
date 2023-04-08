@@ -15,8 +15,6 @@ export default function App() {
     Sora_600SemiBold,
   })
 
-  console.log(fontsLoaded)
-
   if (!fontsLoaded) {
     return false
   }
