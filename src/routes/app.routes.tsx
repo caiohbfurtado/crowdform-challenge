@@ -14,13 +14,15 @@ const { Navigator, Screen } = createBottomTabNavigator()
 
 type AppRoutesProps = {
   Home: undefined
-  Trade: undefined
+  Trade: {
+    type: 'wind' | 'solar' | 'nature'
+  }
 }
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutesProps>
 
 export function AppRoutes() {
-  const { colors, sizes } = useTheme()
+  const { colors, sizes, space } = useTheme()
   const iconSize = sizes[6]
 
   return (
@@ -34,8 +36,8 @@ export function AppRoutes() {
           backgroundColor: colors.gray[200],
           borderTopWidth: 0,
           height: Platform.OS === 'ios' ? 106 : 86,
-          paddingBottom: Platform.OS === 'ios' ? sizes[10] : sizes[6],
-          paddingTop: sizes[6],
+          paddingBottom: Platform.OS === 'ios' ? space[10] : space[6],
+          paddingTop: space[6],
         },
       }}
     >

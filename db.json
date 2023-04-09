@@ -1,0 +1,37 @@
+{
+    "portfolio": {
+        "wind": [
+            { "month": "january", "result": 950.42 },
+            { "month": "february", "result": 980.17 },
+            { "month": "march", "result": 844.62 },
+            { "month": "may", "result": 744.62 },
+            { "month": "august", "result": 749.62 },
+            { "month": "september", "result": 790.62 },
+            { "month": "october", "result": 820.62 },
+            { "month": "november", "result": 891.41 },
+            { "month": "december", "result": 1985.47 }
+          ],
+        "solar": [
+            { "month": "january", "result": 950.42 },
+            { "month": "february", "result": 980.17 },
+            { "month": "march", "result": 844.62 },
+            { "month": "may", "result": 744.62 },
+            { "month": "august", "result": 749.62 },
+            { "month": "september", "result": 520.62 },
+            { "month": "october", "result": 980.62 },
+            { "month": "november", "result": 752.41 },
+            { "month": "december", "result": 1230.47 }
+        ],
+        "nature": [
+            { "month": "january", "result": 950.42 },
+            { "month": "february", "result": 980.17 },
+            { "month": "march", "result": 120.62 },
+            { "month": "may", "result": 178.62 },
+            { "month": "august", "result": 362.62 },
+            { "month": "september", "result": 145.62 },
+            { "month": "october", "result": 852.62 },
+            { "month": "november", "result": 1980.41 },
+            { "month": "december", "result": 720.47 }
+        ]
+    }
+}

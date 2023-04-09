@@ -4,6 +4,8 @@ import { Feather, FontAwesome } from '@expo/vector-icons'
 import { useMemo } from 'react'
 import { getPercentVariation } from '../utils/getPercentVariation'
 import { Chart } from './Chart'
+import { useNavigation } from '@react-navigation/native'
+import { AppNavigatorRoutesProps } from '../routes/app.routes'
 
 export type DataMonth = {
   month:
@@ -29,13 +31,14 @@ type Props = TouchableOpacityProps & {
 
 export function FundCard({ type, yearData }: Props) {
   const { space } = useTheme()
-  const yearDataIsEmptyOrOneMonth = yearData.length <= 1
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const yearDataIsEmptyOrOneMonth = yearData?.length <= 1
 
-  const lastResult = yearData[yearData.length - 1].result
-  const firstResult = yearData[0].result
+  const lastResult = yearData?.[yearData?.length - 1].result
+  const firstResult = yearData?.[0].result
 
   const resultOfMonths = useMemo(
-    () => yearData.map((item) => item.result),
+    () => yearData?.map((item) => item.result),
     [yearData],
   )
 
@@ -84,12 +87,19 @@ export function FundCard({ type, yearData }: Props) {
     )
   }
 
+  function handleGoToFund() {
+    navigate('Trade', { type })
+  }
+
   if (yearDataIsEmptyOrOneMonth) {
     return null
   }
 
   return (
-    <TouchableOpacity style={{ marginRight: space[3] }}>
+    <TouchableOpacity
+      style={{ marginRight: space[3] }}
+      onPress={handleGoToFund}
+    >
       <Box borderWidth={1} borderColor="gray.300" borderRadius="md" p={3}>
         <VStack>
           {RenderIcon()}

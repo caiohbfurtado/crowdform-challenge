@@ -16,73 +16,59 @@ import { DataMonth, FundCard } from '../components/FundCard'
 
 import businessStatistcsImage from '../assets/business-statistcs.png'
 import { MainCard } from '../components/MainCard'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getPercentVariation } from '../utils/getPercentVariation'
+import { api } from '../services/api'
 
-type Portfolio = {
+export type Portfolio = {
   wind: DataMonth[]
   solar: DataMonth[]
   nature: DataMonth[]
 }
 
-const portfolio: Portfolio = {
-  wind: [
-    { month: 'january', result: 950.42 },
-    { month: 'february', result: 980.17 },
-    { month: 'march', result: 844.62 },
-    { month: 'may', result: 744.62 },
-    { month: 'august', result: 749.62 },
-    { month: 'september', result: 790.62 },
-    { month: 'october', result: 820.62 },
-    { month: 'november', result: 891.41 },
-    { month: 'december', result: 1985.47 },
-  ],
-  solar: [
-    { month: 'january', result: 950.42 },
-    { month: 'february', result: 980.17 },
-    { month: 'march', result: 844.62 },
-    { month: 'may', result: 744.62 },
-    { month: 'august', result: 749.62 },
-    { month: 'september', result: 520.62 },
-    { month: 'october', result: 980.62 },
-    { month: 'november', result: 752.41 },
-    { month: 'december', result: 1230.47 },
-  ],
-  nature: [
-    { month: 'january', result: 950.42 },
-    { month: 'february', result: 980.17 },
-    { month: 'march', result: 120.62 },
-    { month: 'may', result: 178.62 },
-    { month: 'august', result: 362.62 },
-    { month: 'september', result: 145.62 },
-    { month: 'october', result: 852.62 },
-    { month: 'november', result: 1980.41 },
-    { month: 'december', result: 720.47 },
-  ],
-}
-
 export function Home() {
-  const firstPortfolioValue = useMemo(() => {
-    const wind = portfolio.wind[0].result
-    const solar = portfolio.solar[0].result
-    const nature = portfolio.nature[0].result
+  const [portfolio, setPortfolio] = useState<Portfolio>({} as Portfolio)
+  const [firstPortfolioSumValue, setFirstPortfolioSumValue] = useState(0)
+  const [lastPortfolioSumValue, setLastPortfolioSumValue] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
-    return wind + solar + nature
-  }, [])
+  async function getPortfolioData() {
+    try {
+      setIsLoading(true)
 
-  const currentPortfolioValue = useMemo(() => {
-    const wind = portfolio.wind[portfolio.wind.length - 1].result
-    const solar = portfolio.solar[portfolio.solar.length - 1].result
-    const nature = portfolio.nature[portfolio.nature.length - 1].result
+      const { data } = await api.get<Portfolio>('/portfolio')
+      setPortfolio(data)
 
-    return wind + solar + nature
+      const windFirstValue = data.wind?.[0].result ?? 0
+      const solarFirstValue = data.solar?.[0].result ?? 0
+      const natureFirstValue = data.nature?.[0].result ?? 0
+      setFirstPortfolioSumValue(
+        windFirstValue + solarFirstValue + natureFirstValue,
+      )
+
+      const windLastValue = data.wind?.[data.wind?.length - 1].result ?? 0
+      const solarLastValue = data.solar?.[data.solar?.length - 1].result ?? 0
+      const natureLastValue = data.nature?.[data.nature?.length - 1].result ?? 0
+      setLastPortfolioSumValue(windLastValue + solarLastValue + natureLastValue)
+    } catch (error) {
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getPortfolioData()
   }, [])
 
   const percent = useMemo(
-    () => getPercentVariation(firstPortfolioValue, currentPortfolioValue),
-    [currentPortfolioValue, firstPortfolioValue],
+    () => getPercentVariation(firstPortfolioSumValue, lastPortfolioSumValue),
+    [lastPortfolioSumValue, firstPortfolioSumValue],
   )
-  const isCrescent = currentPortfolioValue > firstPortfolioValue
+  const isCrescent = lastPortfolioSumValue > firstPortfolioSumValue
+
+  if (isLoading) {
+    return null
+  }
 
   return (
     <ScrollView
@@ -106,7 +92,7 @@ export function Home() {
           </Text>
           <HStack alignItems="flex-end">
             <Text fontFamily="heading" fontSize="2xl">
-              ${currentPortfolioValue}
+              ${lastPortfolioSumValue}
             </Text>
 
             <HStack ml={1} alignItems="center" mb={1}>
@@ -157,9 +143,9 @@ export function Home() {
           showsHorizontalScrollIndicator={false}
           my={5}
         >
-          <FundCard type="wind" yearData={portfolio.wind} />
-          <FundCard type="solar" yearData={portfolio.solar} />
-          <FundCard type="nature" yearData={portfolio.nature} />
+          <FundCard type="wind" yearData={portfolio?.wind} />
+          <FundCard type="solar" yearData={portfolio?.solar} />
+          <FundCard type="nature" yearData={portfolio?.nature} />
         </ScrollView>
 
         <TouchableOpacity>

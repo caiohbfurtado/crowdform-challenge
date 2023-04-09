@@ -4,13 +4,14 @@ import { LineChart } from 'react-native-svg-charts'
 
 type Props = {
   data: number[]
+  height?: number
 }
 
-export function Chart({ data }: Props) {
-  const { colors } = useTheme()
+export function Chart({ height = 20, data }: Props) {
+  const { colors, space } = useTheme()
 
-  const lastResult = data[data.length - 1]
-  const firstResult = data[0]
+  const lastResult = data?.[data?.length - 1]
+  const firstResult = data?.[0]
 
   const isCrescent = lastResult > firstResult
 
@@ -29,10 +30,14 @@ export function Chart({ data }: Props) {
     </Defs>
   )
 
+  if (!data || data.length === 0) {
+    return null
+  }
+
   return (
-    <Box width="full" h={20} backgroundColor="white">
+    <Box width="full" h={height} backgroundColor="white">
       <LineChart
-        style={{ height: 80 }}
+        style={{ height: space[height] }}
         data={data}
         contentInset={{ top: 20, bottom: 20 }}
         svg={{
