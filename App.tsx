@@ -8,6 +8,7 @@ import {
 
 import { THEME } from './src/theme'
 import { Routes } from './src/routes'
+import { AuthContextProvider } from './src/contexts/AuthContext'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -21,9 +22,11 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={THEME}>
-      <Stack flex={1} backgroundColor="white">
-        <Routes />
-      </Stack>
+      <AuthContextProvider>
+        <Stack flex={1} backgroundColor="white">
+          <Routes />
+        </Stack>
+      </AuthContextProvider>
     </NativeBaseProvider>
   )
 }

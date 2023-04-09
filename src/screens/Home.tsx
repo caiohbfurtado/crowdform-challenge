@@ -132,8 +132,8 @@ export function Home() {
 
       <Divider my={5} />
 
-      <VStack px={5}>
-        <Text color="black" fontFamily="heading" fontSize="lg">
+      <VStack>
+        <Text color="black" fontFamily="heading" fontSize="lg" px={5}>
           Funds
         </Text>
 
@@ -142,6 +142,7 @@ export function Home() {
           horizontal
           showsHorizontalScrollIndicator={false}
           my={5}
+          ml={5}
         >
           <FundCard type="wind" yearData={portfolio?.wind} />
           <FundCard type="solar" yearData={portfolio?.solar} />
@@ -149,7 +150,13 @@ export function Home() {
         </ScrollView>
 
         <TouchableOpacity>
-          <Box backgroundColor="purple.500" borderRadius="lg" px={5} py={2}>
+          <Box
+            backgroundColor="purple.500"
+            borderRadius="lg"
+            px={5}
+            py={2}
+            mx={5}
+          >
             <HStack alignItems="center" justifyContent="space-between">
               <VStack>
                 <Text fontFamily="heading" color="white" fontSize="lg">
@@ -170,7 +177,13 @@ export function Home() {
           </Box>
         </TouchableOpacity>
 
-        <HStack flexWrap="wrap" mt={10} justifyContent="space-between" mb={20}>
+        <HStack
+          flexWrap="wrap"
+          mt={10}
+          justifyContent="space-between"
+          mb={20}
+          px={5}
+        >
           <MainCard />
           <MainCard />
         </HStack>

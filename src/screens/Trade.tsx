@@ -119,12 +119,12 @@ export function Trade() {
       <ScrollView
         flex={1}
         pt={3}
-        px={5}
         _contentContainerStyle={{
           pb: 16,
         }}
+        showsVerticalScrollIndicator={false}
       >
-        <HStack justifyContent="space-between">
+        <HStack justifyContent="space-between" px={5}>
           <VStack>
             <Text color="black" fontFamily="heading" fontSize="2xl">
               ${balance}
@@ -151,7 +151,7 @@ export function Trade() {
           height={40}
         />
 
-        <VStack mt={20} mb={6}>
+        <VStack mt={20} mb={6} px={5}>
           <Heading fontFamily="heading" fontSize="lg" color="black">
             Info & Stats
           </Heading>
@@ -171,11 +171,11 @@ export function Trade() {
           </HStack>
         </VStack>
 
-        <Heading fontFamily="heading" fontSize="lg" color="black">
+        <Heading fontFamily="heading" fontSize="lg" color="black" px={5}>
           Fund Breakdown
         </Heading>
 
-        <HStack mt={3}>
+        <HStack mt={3} px={5}>
           {fundBreakDownTypes.map((fund, index) => (
             <Link
               key={String(index)}
@@ -202,20 +202,21 @@ export function Trade() {
           horizontal
           mt={5}
           showsHorizontalScrollIndicator={false}
+          ml={5}
         >
           <InfoAndStatsCard />
           <InfoAndStatsCard />
           <InfoAndStatsCard />
         </ScrollView>
 
-        <HStack mt={8} alignItems="center">
+        <HStack mt={8} alignItems="center" px={5}>
           <Icon as={Feather} name="pie-chart" color="black" size={6} mr={1} />
           <Heading fontFamily="heading" fontSize="lg" color="black">
             Your Portfolio
           </Heading>
         </HStack>
 
-        <HStack justifyContent="space-between" mt={5}>
+        <HStack justifyContent="space-between" mt={5} px={5}>
           <VStack>
             <Text color="black" fontSize="2xl" fontFamily="heading">
               18 credits
@@ -243,7 +244,7 @@ export function Trade() {
           </VStack>
         </HStack>
 
-        <HStack justifyContent="space-between" mt={5}>
+        <HStack justifyContent="space-between" mt={5} px={5}>
           <VStack w="48%">
             <Button title="Sell" variant="outlined" />
           </VStack>
@@ -252,11 +253,11 @@ export function Trade() {
           </VStack>
         </HStack>
 
-        <Text mt={4} color="gray.500" fontSize="xs">
+        <Text mt={4} color="gray.500" fontSize="xs" px={5}>
           You’ve previously retired 28 credits of this asset
         </Text>
 
-        <Box backgroundColor="gray.200" p={3} borderRadius="md" mt={10}>
+        <Box backgroundColor="gray.200" p={3} borderRadius="md" mt={10} mx={5}>
           <Text color="gray.500" fontSize="sm" fontFamily="body">
             Please note that prices are for reference only and may vary at the
             time of excecuting a buy or sell order. The information provided is

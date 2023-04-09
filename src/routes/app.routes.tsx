@@ -9,6 +9,7 @@ import { Feather, Octicons } from '@expo/vector-icons'
 
 import { Home } from '../screens/Home'
 import { Trade } from '../screens/Trade'
+import { useAuth } from '../hooks/useAuth'
 
 const { Navigator, Screen } = createBottomTabNavigator()
 
@@ -23,6 +24,7 @@ export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutesProps>
 
 export function AppRoutes() {
   const { colors, sizes, space } = useTheme()
+  const { signOut } = useAuth()
   const iconSize = sizes[6]
 
   return (
@@ -69,7 +71,7 @@ export function AppRoutes() {
             )
           },
           tabBarButton: (props) => (
-            <TouchableOpacity {...props} onPress={() => {}} />
+            <TouchableOpacity {...props} onPress={signOut} />
           ),
         }}
       />
