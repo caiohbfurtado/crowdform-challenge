@@ -54,7 +54,7 @@ export function SignIn() {
       await signIn(data)
     } catch (error) {
       toast.show({
-        title: 'Não foi possível fazer o login. Tente novamente mais tarde.',
+        title: 'Unable to login. Try again later.',
         placement: 'top',
         bgColor: 'red.500',
         _title: {

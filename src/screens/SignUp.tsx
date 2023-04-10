@@ -72,7 +72,7 @@ export function SignUp() {
       await signUp({ firstName, lastName, email })
       navigate('SignIn')
       toast.show({
-        title: 'Usuário cadastrado com sucesso. Faça seu login!',
+        title: 'User successfully registered. Log in!',
         placement: 'top',
         bgColor: 'green.500',
         _title: {
@@ -82,7 +82,7 @@ export function SignUp() {
       })
     } catch (error) {
       toast.show({
-        title: 'Não foi possível se registrar. Tente novamente mais tarde.',
+        title: 'Unable to register. Try again later.',
         placement: 'top',
         bgColor: 'red.500',
         _title: {
